@@ -12,6 +12,11 @@ public class Lander : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        LanderMovement();
+    }
+
+    private void LanderMovement()
+    {
         if (Keyboard.current.upArrowKey.isPressed || Keyboard.current.wKey.isPressed)
         {
             landerRigidbody2D.AddForce(force * transform.up * Time.deltaTime);
@@ -24,5 +29,26 @@ public class Lander : MonoBehaviour
         {
             landerRigidbody2D.AddTorque(-torque * Time.deltaTime);
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision2D)
+    {
+        float softLandingVelocityMahnitude = 3f;
+        float minSteepAngle = 0.90f;
+        float steepAngle = Vector2.Dot(Vector2.up, transform.up);
+
+        if(collision2D.relativeVelocity.magnitude > softLandingVelocityMahnitude) {
+            Debug.Log(collision2D.relativeVelocity.magnitude+" " +"Soft Landing failed");
+            return;
+        }
+
+        if(steepAngle < minSteepAngle)
+        {
+            Debug.LogError(steepAngle + " Landing fail.");
+            return;
+        }
+
+        Debug.Log(collision2D.relativeVelocity.magnitude + " " + steepAngle + " Landing Successful!");
+        
     }
 }
