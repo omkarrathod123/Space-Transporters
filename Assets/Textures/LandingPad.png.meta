@@ -109,11 +109,37 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: LandingPad_0
+      name: LandingPad
       rect:
         serializedVersion: 2
         x: 0
@@ -122,7 +148,7 @@ TextureImporter:
         height: 219
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 238, y: 0, z: 245, w: 0}
+      border: {x: 216, y: 0, z: 210, w: 0}
       customData: 
       outline: []
       physicsShape: []
@@ -148,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      LandingPad_0: 2114453951145616757
+      LandingPad: 2114453951145616757
   mipmapLimitGroupName: 
   pSDRemoveMatte: 1
   userData: 

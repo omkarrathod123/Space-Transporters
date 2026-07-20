@@ -50,5 +50,8 @@ TagManager:
   - name: Lander
     uniqueID: 522458457
     locked: 0
+  - name: Landing Pad
+    uniqueID: 3276971887
+    locked: 0
   m_RenderingLayers:
   - Default

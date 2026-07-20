@@ -36,19 +36,31 @@ public class Lander : MonoBehaviour
         float softLandingVelocityMahnitude = 3f;
         float minSteepAngle = 0.90f;
         float steepAngle = Vector2.Dot(Vector2.up, transform.up);
+        float maxAngleScore = 100f;
+        float scoreAngleMultiplier = 10f;
+        float maxSpeedScore = 100f;
+        float landingSpeedScore = new float();
+        float landingAngleScore = new float();
+        float relativeVelocityMagnitude = collision2D.relativeVelocity.magnitude;
 
-        if(collision2D.relativeVelocity.magnitude > softLandingVelocityMahnitude) {
-            Debug.Log(collision2D.relativeVelocity.magnitude+" " +"Soft Landing failed");
-            return;
+        if (collision2D.gameObject.TryGetComponent(out LandingPad landingPad)) {
+            Debug.Log("Landing Pad is Detected!");
+            if (relativeVelocityMagnitude > softLandingVelocityMahnitude)
+            {
+                Debug.Log(relativeVelocityMagnitude + " " + "Soft Landing failed");
+                return;
+            }
+
+            if (steepAngle < minSteepAngle)
+            {
+                Debug.LogError(steepAngle + " Landing fail.");
+                return;
+            }
+            landingAngleScore = maxAngleScore - Mathf.Abs(steepAngle - 1f) * scoreAngleMultiplier * maxAngleScore;
+            landingSpeedScore = (softLandingVelocityMahnitude - relativeVelocityMagnitude) * maxSpeedScore;
+            Debug.Log(collision2D.relativeVelocity.magnitude + " " + steepAngle + " Landing Successful!");
+            Debug.Log("Speed Score: " + landingSpeedScore + " Angle Score: " + landingAngleScore);
         }
-
-        if(steepAngle < minSteepAngle)
-        {
-            Debug.LogError(steepAngle + " Landing fail.");
-            return;
-        }
-
-        Debug.Log(collision2D.relativeVelocity.magnitude + " " + steepAngle + " Landing Successful!");
         
     }
 }
