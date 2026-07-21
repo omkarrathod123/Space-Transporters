@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -42,6 +43,7 @@ public class Lander : MonoBehaviour
         float landingSpeedScore = new float();
         float landingAngleScore = new float();
         float relativeVelocityMagnitude = collision2D.relativeVelocity.magnitude;
+        int score;
 
         if (collision2D.gameObject.TryGetComponent(out LandingPad landingPad)) {
             Debug.Log("Landing Pad is Detected!");
@@ -58,8 +60,9 @@ public class Lander : MonoBehaviour
             }
             landingAngleScore = maxAngleScore - Mathf.Abs(steepAngle - 1f) * scoreAngleMultiplier * maxAngleScore;
             landingSpeedScore = (softLandingVelocityMahnitude - relativeVelocityMagnitude) * maxSpeedScore;
+            score = Mathf.RoundToInt((landingAngleScore + landingSpeedScore) * landingPad.GetScoreMultiplier());
             Debug.Log(collision2D.relativeVelocity.magnitude + " " + steepAngle + " Landing Successful!");
-            Debug.Log("Speed Score: " + landingSpeedScore + " Angle Score: " + landingAngleScore);
+            Debug.Log("Speed Score: " + landingSpeedScore + " Angle Score: " + landingAngleScore + " Score: " + score);
         }
         
     }
