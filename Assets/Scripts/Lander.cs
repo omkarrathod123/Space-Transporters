@@ -1,5 +1,7 @@
+using System;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class Lander : MonoBehaviour
@@ -7,6 +9,10 @@ public class Lander : MonoBehaviour
     private float force = 700f;
     private float torque = 100f;
     private Rigidbody2D landerRigidbody2D;
+    public event EventHandler onUpForce;
+    public event EventHandler onRightForce;
+    public event EventHandler onLeftForce;
+    public event EventHandler onBeforeForce;
     private void Awake()
     {
         landerRigidbody2D = GetComponent<Rigidbody2D>();
@@ -18,17 +24,21 @@ public class Lander : MonoBehaviour
 
     private void LanderMovement()
     {
+        onBeforeForce?.Invoke(this, EventArgs.Empty);
         if (Keyboard.current.upArrowKey.isPressed || Keyboard.current.wKey.isPressed)
         {
             landerRigidbody2D.AddForce(force * transform.up * Time.deltaTime);
+            onUpForce?.Invoke(this, EventArgs.Empty);
         }
         if (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.aKey.isPressed)
         {
             landerRigidbody2D.AddTorque(torque * Time.deltaTime);
+            onLeftForce?.Invoke(this, EventArgs.Empty);
         }
         if (Keyboard.current.rightArrowKey.isPressed || Keyboard.current.dKey.isPressed)
         {
             landerRigidbody2D.AddTorque(-torque * Time.deltaTime);
+            onRightForce?.Invoke(this, EventArgs.Empty);
         }
     }
 
