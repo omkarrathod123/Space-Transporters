@@ -90,4 +90,12 @@ public class Lander : MonoBehaviour
         }
         
     }
+    private void OnTriggerEnter2D(Collider2D collision2d)
+    {
+        if(collision2d.gameObject.TryGetComponent(out FuelPickup fuelPickup))
+        {
+            fuelAmount = fuelPickup.GetRefuelAmount();
+            fuelPickup.SelfDestroy();
+        }
+    }
 }
