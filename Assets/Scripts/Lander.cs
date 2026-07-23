@@ -9,6 +9,7 @@ public class Lander : MonoBehaviour
     private float force = 700f;
     private float torque = 100f;
     private Rigidbody2D landerRigidbody2D;
+    private float fuelAmount = 5;
     public event EventHandler onUpForce;
     public event EventHandler onRightForce;
     public event EventHandler onLeftForce;
@@ -19,6 +20,11 @@ public class Lander : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        Debug.Log(fuelAmount);
+        if(fuelAmount <= 0) { 
+            onBeforeForce.Invoke(this, EventArgs.Empty);
+            return; 
+        }
         LanderMovement();
     }
 
@@ -28,18 +34,26 @@ public class Lander : MonoBehaviour
         if (Keyboard.current.upArrowKey.isPressed || Keyboard.current.wKey.isPressed)
         {
             landerRigidbody2D.AddForce(force * transform.up * Time.deltaTime);
+            FuelConsumption(0.6f);
             onUpForce?.Invoke(this, EventArgs.Empty);
         }
         if (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.aKey.isPressed)
         {
             landerRigidbody2D.AddTorque(torque * Time.deltaTime);
+            FuelConsumption(0.2f);
             onLeftForce?.Invoke(this, EventArgs.Empty);
         }
         if (Keyboard.current.rightArrowKey.isPressed || Keyboard.current.dKey.isPressed)
         {
             landerRigidbody2D.AddTorque(-torque * Time.deltaTime);
+            FuelConsumption(0.2f);
             onRightForce?.Invoke(this, EventArgs.Empty);
         }
+    }
+
+    private void FuelConsumption(float fuelConsumptionAmount)
+    {
+        fuelAmount -= fuelConsumptionAmount * Time.deltaTime;
     }
 
     private void OnCollisionEnter2D(Collision2D collision2D)
@@ -75,5 +89,13 @@ public class Lander : MonoBehaviour
             Debug.Log("Speed Score: " + landingSpeedScore + " Angle Score: " + landingAngleScore + " Score: " + score);
         }
         
+    }
+    private void OnTriggerEnter2D(Collider2D collision2d)
+    {
+        if(collision2d.gameObject.TryGetComponent(out FuelPickup fuelPickup))
+        {
+            fuelAmount = fuelPickup.GetRefuelAmount();
+            fuelPickup.SelfDestroy();
+        }
     }
 }
