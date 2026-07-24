@@ -1,0 +1,12 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using UnityEngine;
+
+namespace Assets.Scripts
+{
+    public class onLandedEventArgs : EventArgs
+    {
+        public int score;
+    }
+}
