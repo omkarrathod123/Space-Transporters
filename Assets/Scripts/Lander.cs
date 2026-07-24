@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using System;
 using Unity.Mathematics;
 using UnityEngine;
@@ -14,13 +15,19 @@ public class Lander : MonoBehaviour
     public event EventHandler onRightForce;
     public event EventHandler onLeftForce;
     public event EventHandler onBeforeForce;
+    public event EventHandler onCoinPickup;
+    public event EventHandler<onLandedEventArgs> onLanded;
+
+    public static Lander Instance { get; private set; }
+
     private void Awake()
     {
         landerRigidbody2D = GetComponent<Rigidbody2D>();
+        Instance = this;
     }
     private void FixedUpdate()
     {
-        Debug.Log(fuelAmount);
+        //Debug.Log(fuelAmount);
         if(fuelAmount <= 0) { 
             onBeforeForce.Invoke(this, EventArgs.Empty);
             return; 
@@ -87,6 +94,10 @@ public class Lander : MonoBehaviour
             score = Mathf.RoundToInt((landingAngleScore + landingSpeedScore) * landingPad.GetScoreMultiplier());
             Debug.Log(collision2D.relativeVelocity.magnitude + " " + steepAngle + " Landing Successful!");
             Debug.Log("Speed Score: " + landingSpeedScore + " Angle Score: " + landingAngleScore + " Score: " + score);
+            onLanded.Invoke(this, new onLandedEventArgs
+            {
+                score = score,
+            });
         }
         
     }
@@ -96,6 +107,11 @@ public class Lander : MonoBehaviour
         {
             fuelAmount = fuelPickup.GetRefuelAmount();
             fuelPickup.SelfDestroy();
+        }
+        if(collision2d.gameObject.TryGetComponent(out CoinPickup coinPickup))
+        {
+            onCoinPickup.Invoke(this, EventArgs.Empty);
+            coinPickup.SelfDestroy();
         }
     }
 }
