@@ -11,6 +11,7 @@ public class Lander : MonoBehaviour
     private float torque = 100f;
     private Rigidbody2D landerRigidbody2D;
     private float fuelAmount = 5;
+    private float maxFuelAmount = 10f;
     public event EventHandler onUpForce;
     public event EventHandler onRightForce;
     public event EventHandler onLeftForce;
@@ -113,5 +114,13 @@ public class Lander : MonoBehaviour
             onCoinPickup.Invoke(this, EventArgs.Empty);
             coinPickup.SelfDestroy();
         }
+    }
+    public float GetFuel()
+    {
+        return fuelAmount;
+    }
+    public float GetFuelAmountNormalized()
+    {
+        return fuelAmount / maxFuelAmount;
     }
 }
