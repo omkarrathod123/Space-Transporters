@@ -11,6 +11,7 @@ public class Lander : MonoBehaviour
     private float torque = 100f;
     private Rigidbody2D landerRigidbody2D;
     private float fuelAmount = 5;
+    private float maxFuelAmount = 10f;
     public event EventHandler onUpForce;
     public event EventHandler onRightForce;
     public event EventHandler onLeftForce;
@@ -27,7 +28,6 @@ public class Lander : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        //Debug.Log(fuelAmount);
         if(fuelAmount <= 0) { 
             onBeforeForce.Invoke(this, EventArgs.Empty);
             return; 
@@ -92,8 +92,6 @@ public class Lander : MonoBehaviour
             landingAngleScore = maxAngleScore - Mathf.Abs(steepAngle - 1f) * scoreAngleMultiplier * maxAngleScore;
             landingSpeedScore = (softLandingVelocityMahnitude - relativeVelocityMagnitude) * maxSpeedScore;
             score = Mathf.RoundToInt((landingAngleScore + landingSpeedScore) * landingPad.GetScoreMultiplier());
-            Debug.Log(collision2D.relativeVelocity.magnitude + " " + steepAngle + " Landing Successful!");
-            Debug.Log("Speed Score: " + landingSpeedScore + " Angle Score: " + landingAngleScore + " Score: " + score);
             onLanded.Invoke(this, new onLandedEventArgs
             {
                 score = score,
@@ -113,5 +111,13 @@ public class Lander : MonoBehaviour
             onCoinPickup.Invoke(this, EventArgs.Empty);
             coinPickup.SelfDestroy();
         }
+    }
+    public float GetFuel()
+    {
+        return fuelAmount;
+    }
+    public float GetFuelAmountNormalized()
+    {
+        return fuelAmount / maxFuelAmount;
     }
 }
