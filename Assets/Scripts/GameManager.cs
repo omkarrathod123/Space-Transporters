@@ -33,7 +33,6 @@ public class GameManager : MonoBehaviour
     public void AddScore(int score)
     {
         this.score += score;
-        Debug.Log("Current Score is " + this.score);
     }
     public int GetScore()
     {

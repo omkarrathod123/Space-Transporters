@@ -28,7 +28,6 @@ public class Lander : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        //Debug.Log(fuelAmount);
         if(fuelAmount <= 0) { 
             onBeforeForce.Invoke(this, EventArgs.Empty);
             return; 
@@ -93,8 +92,6 @@ public class Lander : MonoBehaviour
             landingAngleScore = maxAngleScore - Mathf.Abs(steepAngle - 1f) * scoreAngleMultiplier * maxAngleScore;
             landingSpeedScore = (softLandingVelocityMahnitude - relativeVelocityMagnitude) * maxSpeedScore;
             score = Mathf.RoundToInt((landingAngleScore + landingSpeedScore) * landingPad.GetScoreMultiplier());
-            Debug.Log(collision2D.relativeVelocity.magnitude + " " + steepAngle + " Landing Successful!");
-            Debug.Log("Speed Score: " + landingSpeedScore + " Angle Score: " + landingAngleScore + " Score: " + score);
             onLanded.Invoke(this, new onLandedEventArgs
             {
                 score = score,
