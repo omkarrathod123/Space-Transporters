@@ -18,8 +18,14 @@ public class Lander : MonoBehaviour
     public event EventHandler onBeforeForce;
     public event EventHandler onCoinPickup;
     public event EventHandler<onLandedEventArgs> onLanded;
-
     public static Lander Instance { get; private set; }
+    public enum LandingType
+    {
+        Success,
+        WrongLandingArea,
+        TooSteepAngle,
+        TooFastLanding,
+    }
 
     private void Awake()
     {
@@ -76,28 +82,54 @@ public class Lander : MonoBehaviour
         float relativeVelocityMagnitude = collision2D.relativeVelocity.magnitude;
         int score;
 
-        if (collision2D.gameObject.TryGetComponent(out LandingPad landingPad)) {
-            Debug.Log("Landing Pad is Detected!");
-            if (relativeVelocityMagnitude > softLandingVelocityMahnitude)
-            {
-                Debug.Log(relativeVelocityMagnitude + " " + "Soft Landing failed");
-                return;
-            }
-
-            if (steepAngle < minSteepAngle)
-            {
-                Debug.LogError(steepAngle + " Landing fail.");
-                return;
-            }
-            landingAngleScore = maxAngleScore - Mathf.Abs(steepAngle - 1f) * scoreAngleMultiplier * maxAngleScore;
-            landingSpeedScore = (softLandingVelocityMahnitude - relativeVelocityMagnitude) * maxSpeedScore;
-            score = Mathf.RoundToInt((landingAngleScore + landingSpeedScore) * landingPad.GetScoreMultiplier());
+        if (!collision2D.gameObject.TryGetComponent(out LandingPad landingPad)) {
             onLanded.Invoke(this, new onLandedEventArgs
             {
-                score = score,
+                landingType = LandingType.WrongLandingArea,
+                landingAngle = 0,
+                landingSpeed = 0,
+                scoreMultiplier = 0,
+                score = 0,
             });
+            return;
         }
-        
+        if (relativeVelocityMagnitude > softLandingVelocityMahnitude)
+        {
+            onLanded.Invoke(this, new onLandedEventArgs
+            {
+                landingType = LandingType.TooFastLanding,
+                landingAngle = landingAngleScore,
+                landingSpeed = 0,
+                scoreMultiplier = landingPad.GetScoreMultiplier(),
+                score = 0,
+            });
+            return;
+        }
+
+        if (steepAngle < minSteepAngle)
+        {
+            onLanded.Invoke(this, new onLandedEventArgs
+            {
+                landingType = LandingType.TooSteepAngle,
+                landingAngle = 0,
+                landingSpeed = landingSpeedScore,
+                scoreMultiplier = landingPad.GetScoreMultiplier(),
+                score = 0,
+            });
+            return;
+        }
+        landingAngleScore = maxAngleScore - Mathf.Abs(steepAngle - 1f) * scoreAngleMultiplier * maxAngleScore;
+        landingSpeedScore = (softLandingVelocityMahnitude - relativeVelocityMagnitude) * maxSpeedScore;
+        score = Mathf.RoundToInt((landingAngleScore + landingSpeedScore) * landingPad.GetScoreMultiplier());
+        onLanded.Invoke(this, new onLandedEventArgs
+        {
+            landingType = LandingType.Success,
+            landingAngle = landingAngleScore,
+            landingSpeed = landingSpeedScore,
+            scoreMultiplier = landingPad.GetScoreMultiplier(),
+            score = score,
+        });
+
     }
     private void OnTriggerEnter2D(Collider2D collision2d)
     {
