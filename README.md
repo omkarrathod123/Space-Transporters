@@ -9,7 +9,7 @@ Players take control of futuristic transport ships, navigating through asteroid 
 - Resource management gameplay
 - Modular Unity project structure for easy scalability
 
-This project is ideal for learning **Unity 2D development**, **game physics**, and **asset management**.
+This project is ideal for learning **Unity 2D development** and **asset management**.
 
 ## ✨ Features
 - 2D space environment with parallax backgrounds
@@ -23,11 +23,7 @@ This project is ideal for learning **Unity 2D development**, **game physics**, a
 - Pilot your transporter ship through space.
 - Avoid asteroids and hazards.
 - Collect cargo pods scattered across the map.
-- Deliver cargo safely to space stations.
+- Deliver cargo safely to delivery area.
 - Earn points and unlock new levels.
 
-## ⚙️ Installation
-1. Clone the repository:
-   ```bash
-   https://github.com/omkarrathod123/Space-Transporters
-   ```
+---
