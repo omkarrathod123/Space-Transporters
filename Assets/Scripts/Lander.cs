@@ -18,8 +18,14 @@ public class Lander : MonoBehaviour
     public event EventHandler onBeforeForce;
     public event EventHandler onCoinPickup;
     public event EventHandler<onLandedEventArgs> onLanded;
-
     public static Lander Instance { get; private set; }
+    public enum LandingType
+    {
+        Success,
+        WrongLandingArea,
+        TooSteepAngle,
+        TooFastLanding,
+    }
 
     private void Awake()
     {
