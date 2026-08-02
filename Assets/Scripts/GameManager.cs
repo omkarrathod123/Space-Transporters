@@ -4,6 +4,7 @@ public class GameManager : MonoBehaviour
 {
     private int score;
     private float time;
+    private int currentLevel;
     private bool isTimerActive;
     public static GameManager Instance { get; private set; }
     private void Awake()
@@ -52,5 +53,14 @@ public class GameManager : MonoBehaviour
     public float GetTime()
     {
         return time;
+    }
+    public int GetCurrentLevel()
+    {
+        return currentLevel;
+    }
+    public int SetCurrentLevel(int levelnumber)
+    {
+        currentLevel = levelnumber;
+        return currentLevel;
     }
 }
