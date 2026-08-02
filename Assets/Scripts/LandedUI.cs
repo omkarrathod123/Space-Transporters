@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ public class LandedUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI bannerTitleText;
     [SerializeField] private TextMeshProUGUI dataText;
     [SerializeField] private Button restartButton;
+    [SerializeField] private Button nextButton;
 
     private void Awake()
     {
@@ -16,10 +18,16 @@ public class LandedUI : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         });
+        nextButton.onClick.AddListener(() =>
+        {
+            int nextScene = GameManager.Instance.SetCurrentLevel(GameManager.Instance.GetCurrentLevel() + 1);
+            SceneManager.LoadScene(nextScene);
+        });
     }
 
     private void Start()
     {
+        nextButton.enabled = false;
         Lander.Instance.onLanded += Lander_onLanded;
         GameOver(false);
     }
@@ -29,6 +37,7 @@ public class LandedUI : MonoBehaviour
         if(e.landingType == Lander.LandingType.Success)
         {
             bannerTitleText.text = "SUCCESSFUL LANDING!";
+            nextButton.enabled = true;
         }
         else
         {
