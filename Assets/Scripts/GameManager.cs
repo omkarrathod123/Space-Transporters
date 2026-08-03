@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -53,14 +54,5 @@ public class GameManager : MonoBehaviour
     public float GetTime()
     {
         return time;
-    }
-    public int GetCurrentLevel()
-    {
-        return currentLevel;
-    }
-    public int SetCurrentLevel(int levelnumber)
-    {
-        currentLevel = levelnumber;
-        return currentLevel;
     }
 }

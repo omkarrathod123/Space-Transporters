@@ -18,11 +18,6 @@ public class LandedUI : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         });
-        nextButton.onClick.AddListener(() =>
-        {
-            int nextScene = GameManager.Instance.SetCurrentLevel(GameManager.Instance.GetCurrentLevel() + 1);
-            SceneManager.LoadScene(nextScene);
-        });
     }
 
     private void Start()
