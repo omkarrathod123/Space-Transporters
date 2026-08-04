@@ -14,6 +14,7 @@ public class LevelStatusUi : MonoBehaviour
     private void UpdateDataText()
     {
         dataText.text =
+            LevelManager.Instance.GetCurrentLevel() + "\n" +
             GameManager.Instance.GetScore() + "\n" +
             Mathf.Round(GameManager.Instance.GetTime()) + "\n" +
             Mathf.Round(Lander.Instance.GetFuel()) * 10 ;
