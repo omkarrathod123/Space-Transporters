@@ -16,13 +16,17 @@ public class LandedUI : MonoBehaviour
     {
         restartButton.onClick.AddListener(() =>
         {
-            SceneManager.LoadScene(0);
+            LevelManager.Instance.RestartLevel();
+        });
+        nextButton.onClick.AddListener(() =>
+        {
+            LevelManager.Instance.NextLevel();
         });
     }
 
     private void Start()
     {
-        nextButton.enabled = false;
+        nextButton.gameObject.SetActive(false);
         Lander.Instance.onLanded += Lander_onLanded;
         GameOver(false);
     }
@@ -32,11 +36,12 @@ public class LandedUI : MonoBehaviour
         if(e.landingType == Lander.LandingType.Success)
         {
             bannerTitleText.text = "SUCCESSFUL LANDING!";
-            nextButton.enabled = true;
+            nextButton.gameObject.SetActive(true);
         }
         else
         {
             bannerTitleText.text = "LANDING FAILED!";
+            nextButton.gameObject.SetActive(false);
         }
         dataText.text =
             Mathf.Round(e.landingSpeed * 1.3f) + "\n" +
