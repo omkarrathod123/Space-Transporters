@@ -1,3 +1,6 @@
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +9,8 @@ public class GameManager : MonoBehaviour
     private int score;
     private float time;
     private bool isTimerActive;
+    [SerializeField] private List<CoinPickup> coins;
+    private int currrentCoins;
     public static GameManager Instance { get; private set; }
     private void Awake()
     {
@@ -17,6 +22,8 @@ public class GameManager : MonoBehaviour
         Lander.Instance.onCoinPickup += Lander_onCoinPickup;
         Lander.Instance.onLanded += Lander_onLanded;
         Lander.Instance.onStateChanged += Lander_onStateChanged;
+        coins = FindObjectsByType<CoinPickup>(FindObjectsSortMode.None).ToList();
+        currrentCoins = 0;
     }
 
     private void Lander_onStateChanged(object sender, onStateChangedEventArgs e)
@@ -53,5 +60,18 @@ public class GameManager : MonoBehaviour
     public float GetTime()
     {
         return time;
+    }
+    public int AddCoin()
+    {
+        currrentCoins++;
+        return currrentCoins;
+    }
+    public int GetCurrentCoins()
+    {
+        return currrentCoins;
+    }
+    public int GetTotatCoins()
+    {
+        return coins.Count;
     }
 }
